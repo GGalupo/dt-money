@@ -1,9 +1,11 @@
-import { useState } from 'react'
+import { FormEvent, useState, useContext } from 'react'
 import Modal from 'react-modal'
 
 import closeImg from '../../assets/close.svg'
 import incomeImg from '../../assets/income.svg'
 import expensesImg from '../../assets/expenses.svg'
+
+import { TransactionsContext } from '../../TransactionsContext'
 
 import {
     Container,
@@ -19,7 +21,30 @@ interface NewTransactionModalProps {
 export function NewTransactionModal({
     isOpen, onRequestClose
 }: NewTransactionModalProps) {
-    const [type, setType] = useState('income')
+    const [title, setTitle] = useState('')
+    const [amount, setAmount] = useState(0)
+    const [transactionType, setTransactionType] = useState('income')
+    const [categoryType, setCategoryType] = useState('')
+
+    const { createTransaction } = useContext(TransactionsContext)
+
+    async function handleCreateNewTransaction(e: FormEvent) {
+        e.preventDefault()
+
+        await createTransaction({
+            title,
+            amount,
+            transactionType,
+            categoryType
+        })
+
+        setTitle('')
+        setAmount(0)
+        setTransactionType('income')
+        setCategoryType('')
+
+        onRequestClose()
+    }
 
     return (
         <Modal
@@ -35,20 +60,24 @@ export function NewTransactionModal({
             >
                 <img src={closeImg} alt="Close modal" />
             </button>
-            <Container>
+            <Container onSubmit={handleCreateNewTransaction}>
                 <h2>New Transaction</h2>
                 <input
                     placeholder="Title"
+                    value={title}
+                    onChange={e => setTitle(e.target.value)}
                 />
                 <input
                     placeholder="Value"
                     type="number"
+                    value={amount}
+                    onChange={e => setAmount(Number(e.target.value))}
                 />
                 <TransactionTypeContainer>
                     <RadioBox
                         type="button"
-                        onClick={() => setType('income')}
-                        isActive={type === 'income'}
+                        onClick={() => setTransactionType('income')}
+                        isActive={transactionType === 'income'}
                         activeColor="green"
                     >
                         <img src={incomeImg} alt="Income button" />
@@ -56,8 +85,8 @@ export function NewTransactionModal({
                     </RadioBox>
                     <RadioBox
                         type="button"
-                        onClick={() => setType('expense')}
-                        isActive={type === 'expense'}
+                        onClick={() => setTransactionType('expense')}
+                        isActive={transactionType === 'expense'}
                         activeColor="red"
                     >
                         <img src={expensesImg} alt="Expenses button" />
@@ -66,6 +95,8 @@ export function NewTransactionModal({
                 </TransactionTypeContainer>
                 <input
                     placeholder="Type"
+                    value={categoryType}
+                    onChange={e => setCategoryType(e.target.value)}
                 />
                 <button type="submit">
                     Add Transaction
