@@ -15,10 +15,10 @@ createServer({
       transactions: [
         {
           id: 1,
-          title: 'Website Freelance',
+          title: 'Website Development',
           transactionType: 'income',
           categoryType: 'Development',
-          amount: 6000,
+          amount: 2000,
           createdAt: new Date('2021-05-11 09:00:00')
         },
         {
@@ -29,6 +29,22 @@ createServer({
           amount: 500,
           createdAt: new Date('2021-05-10 09:00:00')
         },
+        {
+          id: 3,
+          title: 'Salary',
+          transactionType: 'income',
+          categoryType: 'Knowledge',
+          amount: 3500,
+          createdAt: new Date('2021-05-09 09:00:00')
+        },
+        {
+          id: 4,
+          title: 'Phone',
+          transactionType: 'expense',
+          categoryType: 'Knowledge',
+          amount: 1500,
+          createdAt: new Date('2021-05-08 09:00:00')
+        }
       ]
     })
   },

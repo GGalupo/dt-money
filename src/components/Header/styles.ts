@@ -32,3 +32,21 @@ export const Content = styled.div`
         }
     }
 `
+
+export const LogoContainer = styled.div`
+    display: flex;
+    align-items: center;
+
+    img {
+        width: 70px;
+        height: 70px;
+
+        margin-right: 1.2rem;
+    }
+
+    span {
+        color: #FFF;
+        font-size: 1.7rem;
+        font-weight: 600;
+    }
+`
